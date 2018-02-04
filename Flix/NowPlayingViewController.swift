@@ -66,7 +66,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         let task = session.dataTask(with: request) { (data, response, error) in
             // This will run when the network request returns
             if let error = error {
-                let alertController = UIAlertController(title: "Cannot Get Movie", message: "The Internet connection appears to be offline", preferredStyle: .alert)
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
+                
+                let alertController = UIAlertController(title: "Cannot Get Movies", message: "The Internet connection appears to be offline.", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                    // handle cancel response here. Doing nothing will dismiss the view.
+                }
+                // add the cancel action to the alertController
+                alertController.addAction(cancelAction)
                 let OKAction = UIAlertAction(title: "Try Again", style: .default) { (action) in
                     self.fetchMovies()
                 }
@@ -80,6 +88,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
                 let movies = dataDictionary["results"] as! [[String: Any]]
                 self.movies = movies
                 self.data = []
+                self.movieData = [:]
                 for movie in movies {
                     self.data.append(movie["title"] as! String)
                     let title = movie["title"] as! String
@@ -106,12 +115,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if (self.filteredData != nil) {
-            print ("filtered")
-            print(filteredData.count)
-            return filteredData.count
-        }
-        return movies.count
+        return filteredData.count
     
     }
     
@@ -156,6 +160,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         searchBar.text = ""
         searchBar.resignFirstResponder()
         self.view.endEditing(true)
+        filteredData = data
+        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
