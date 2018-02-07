@@ -19,11 +19,17 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     var movies: [[String:Any]] = []
     var refreshControl: UIRefreshControl!
     
+    
     @IBOutlet weak var searchBar: UISearchBar!
     var filteredData: [String]! = []
     var data: [String]! = []
     var movieData:[String:[String]]! = [:]
     
+    
+    /*func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // pass any object as parameter, i.e. the tapped row
+        performSegue(withIdentifier: "identifier", sender: indexPath.row)
+    }*/
     
     
     
@@ -34,6 +40,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
+        refreshControl.tintColor = UIColor(red:1.0, green:1.0, blue:1.0, alpha:1.0)
         tableView.insertSubview(refreshControl, at: 0)
         
         
@@ -94,7 +101,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
                     let title = movie["title"] as! String
                     let overview = movie["overview"] as! String
                     let posterPathString = movie["poster_path"] as! String
-                    self.movieData[title] = [overview, posterPathString]
+                    var rating = String(describing: movie["vote_average"])
+                    rating = String(rating)
+                    self.movieData[title] = [overview, posterPathString, rating]
                 }
                 self.filteredData = self.data
 
@@ -111,6 +120,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         task.resume()
         
     }
+    
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -136,8 +146,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         return cell
     }
     
-
-    
+        
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         searchBarTextDidBeginEditing(searchBar)
@@ -169,8 +178,32 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     }
  
     
-    @IBAction func onTap(_ sender: Any) {
+    /*@IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
+        tap.cancelsTouchesInView = false
+    }*/
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UITableViewCell
+        if let indexPath = tableView.indexPath(for: cell) {
+            let movie = movies[indexPath.row]
+            let detailsViewController = segue.destination as! DetailsViewController
+            detailsViewController.movie = movie
+            /*
+             detailsViewController.movie = movie
+             detailsViewController.over = movieData[movie]?[0]
+             detailsViewController.posterText = movieData[movie]?[1]
+             detailsViewController.rating = movieData[movie]?[2]
+             */
+            
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let index = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: index, animated: true)
+        }
     }
     
     
