@@ -26,11 +26,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     var movieData:[String:[String]]! = [:]
     
     
-    /*func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // pass any object as parameter, i.e. the tapped row
-        performSegue(withIdentifier: "identifier", sender: indexPath.row)
-    }*/
-    
     
     
     override func viewDidLoad() {
@@ -55,7 +50,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         
     }
     
-    func didPullToRefresh(_ refreshControl: UIRefreshControl) {
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
         self.searchBarCancelButtonClicked(self.searchBar)
         fetchMovies()
     }
@@ -178,10 +173,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     }
  
     
-    /*@IBAction func onTap(_ sender: Any) {
-        view.endEditing(true)
-        tap.cancelsTouchesInView = false
-    }*/
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! UITableViewCell
@@ -189,15 +181,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
             let movie = movies[indexPath.row]
             let detailsViewController = segue.destination as! DetailsViewController
             detailsViewController.movie = movie
-            /*
-             detailsViewController.movie = movie
-             detailsViewController.over = movieData[movie]?[0]
-             detailsViewController.posterText = movieData[movie]?[1]
-             detailsViewController.rating = movieData[movie]?[2]
-             */
-            
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

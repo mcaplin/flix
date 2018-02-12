@@ -10,7 +10,6 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
-    //var text:String = ""
 
     @IBOutlet weak var backDropImageView: UIImageView!
     @IBOutlet weak var posterImageView: UIImageView!
@@ -18,14 +17,12 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var OverviewTextView: UITextView!
+    
     var movie: [String:Any]?
     
-    
-    
-    /*var movie:String? = "title"
-    var over:String? = "overview"
-    var posterText:String? = ""
-    var rating:String? = ""*/
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +30,9 @@ class DetailsViewController: UIViewController {
         if let movie = movie {
             titleLabel.text = movie["title"] as? String
             releaseDateLabel.text = movie["release_date"] as? String
-            overviewLabel.text = movie["overview"] as? String
+            OverviewTextView.text = movie["overview"] as? String
+            let avg = movie["vote_average"] as! CGFloat
+            ratingLabel.text = String(describing: avg) + " ⭐️"
             let backdropPathString = movie["backdrop_path"] as! String
             let posterPathString = movie["poster_path"] as! String
             let baseURLString = "https://image.tmdb.org/t/p/w500"
@@ -41,24 +40,31 @@ class DetailsViewController: UIViewController {
             backDropImageView.af_setImage(withURL: backdropURL)
             let posterURL = URL(string: baseURLString + posterPathString)!
             posterImageView.af_setImage(withURL: posterURL)
+
+        
             
             
         }
         
-        //movieTitle.text = "asdf"
-       // movieTitle.text = movie
-        /*overview.text = over
-        overview.sizeToFit()
-        rate.text = rating
-        //posterText = poster
-        let baseURLString = "https://image.tmdb.org/t/p/w500"
-        let posterURL = URL(string: baseURLString + posterText!)!
-        poster.af_setImage(withURL: posterURL)
-        */
-        //movieTitle?.text = text
-
-        // Do any additional setup after loading the view.
     }
+        
+    
+    @IBAction func didTap(_ sender: Any) {
+        performSegue(withIdentifier: "web", sender: nil)
+    }
+    
+        
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            
+                let WebViewController = segue.destination as! WebViewController
+    
+            let id = movie!["id"] as! Int
+   
+            WebViewController.id = id
+            
+        }
+
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -66,14 +72,6 @@ class DetailsViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
