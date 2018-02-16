@@ -17,8 +17,9 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     
+    
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var OverviewTextView: UITextView!
+
     
     var movie: [String:Any]?
     
@@ -30,7 +31,7 @@ class DetailsViewController: UIViewController {
         if let movie = movie {
             titleLabel.text = movie["title"] as? String
             releaseDateLabel.text = movie["release_date"] as? String
-            OverviewTextView.text = movie["overview"] as? String
+            overviewLabel.text = movie["overview"] as? String
             let avg = movie["vote_average"] as! CGFloat
             ratingLabel.text = String(describing: avg) + " ⭐️"
             let backdropPathString = movie["backdrop_path"] as! String

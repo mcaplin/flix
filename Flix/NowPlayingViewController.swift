@@ -46,6 +46,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         
 
         searchBar.delegate = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 50
 
         
     }
@@ -189,6 +192,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
             self.tableView.deselectRow(at: index, animated: true)
         }
     }
+    
     
     
     

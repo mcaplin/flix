@@ -28,6 +28,8 @@ class MovieCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        //titleLabel.preferredMaxLayoutWidth = titleLabel.frame.size.width
         // Initialization code
     }
 
