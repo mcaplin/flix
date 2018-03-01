@@ -12,7 +12,7 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var movies: [[String:Any]] = []
+    var movies: [Movie] = []
     let thorID = 284053
     
 
@@ -49,9 +49,14 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
             }
             else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                
-                let movies = dataDictionary["results"] as! [[String: Any]]
-                self.movies = movies
+                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+                self.movies = []
+                for dictionary in movieDictionaries {
+                    let movie = Movie(dictionary: dictionary)
+                    self.movies.append(movie)
+                }
+                //let movies = dataDictionary["results"] as! [[String: Any]]
+                //self.movies = movies
                 self.collectionView.reloadData()
                 
             }
@@ -70,7 +75,7 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCell", for: indexPath) as! PosterCell
         let movie = movies[indexPath.item]
-        if let posterPathString = movie["poster_path"] as? String {
+        if let posterPathString = movie.posterUrl {
             let baseURLString = "https://image.tmdb.org/t/p/w500"
             let posterURL = URL(string: baseURLString + posterPathString)!
             cell.posterImageView.af_setImage(withURL: posterURL)

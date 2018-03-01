@@ -16,34 +16,29 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
-    
-    
     @IBOutlet weak var ratingLabel: UILabel!
 
     
-    var movie: [String:Any]?
+    var movie: Movie?
     
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let movie = movie {
-            titleLabel.text = movie["title"] as? String
-            releaseDateLabel.text = movie["release_date"] as? String
-            overviewLabel.text = movie["overview"] as? String
-            let avg = movie["vote_average"] as! CGFloat
+            titleLabel.text = movie.title
+            releaseDateLabel.text = movie.releaseDate
+            overviewLabel.text = movie.overview
+            let avg = movie.rating
             ratingLabel.text = String(describing: avg) + " ⭐️"
-            let backdropPathString = movie["backdrop_path"] as! String
-            let posterPathString = movie["poster_path"] as! String
+            let backdropPathString = movie.backdropPath
+            let posterPathString = movie.posterUrl
             let baseURLString = "https://image.tmdb.org/t/p/w500"
-            let backdropURL = URL(string: baseURLString + backdropPathString)!
+            let backdropURL = URL(string: baseURLString + backdropPathString!)!
             backDropImageView.af_setImage(withURL: backdropURL)
-            let posterURL = URL(string: baseURLString + posterPathString)!
+            let posterURL = URL(string: baseURLString + posterPathString!)!
             posterImageView.af_setImage(withURL: posterURL)
 
-        
-            
             
         }
         
@@ -54,14 +49,13 @@ class DetailsViewController: UIViewController {
         performSegue(withIdentifier: "web", sender: nil)
     }
     
-        
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             
                 let WebViewController = segue.destination as! WebViewController
     
-            let id = movie!["id"] as! Int
-   
-            WebViewController.id = id
+                let id = movie?.id
+            
+                WebViewController.id = id
             
         }
 

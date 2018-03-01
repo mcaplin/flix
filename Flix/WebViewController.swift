@@ -13,7 +13,6 @@ class WebViewController: UIViewController  {
     
     @IBOutlet weak var webView: UIWebView!
     let urla = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    var movie: [String:Any]?
     var id: Int!
 
     override func viewDidLoad() {
@@ -44,8 +43,6 @@ class WebViewController: UIViewController  {
         }
         task.resume()
         
-        
-
     }
     
     
