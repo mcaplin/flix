@@ -13,9 +13,6 @@ class MovieCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var posterImageView: UIImageView!
-    //var text:String = "test1"
-    
-    //var movie: Movie?
     
     var movie: Movie! {
         didSet {
@@ -29,15 +26,6 @@ class MovieCell: UITableViewCell {
         }
     }
     
-    /*@IBAction func detailsButton(_ sender: Any) {
-        let vc = DetailsViewController(nibName: "DetailsViewController", bundle: nil)
-        vc.text = "test"
-        self.showViewController(destination, sender: self)
-        
-        //rootViewController?.pushViewController(vc, animated: true)
-    }*/
-    
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,7 +36,6 @@ class MovieCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
 }
