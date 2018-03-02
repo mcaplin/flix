@@ -21,8 +21,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="39W-Il-3oX">
+                                <rect key="frame" x="8" y="116" width="359" height="29"/>
+                                <segments>
+                                    <segment title="Now Playing"/>
+                                    <segment title="Popular"/>
+                                </segments>
+                                <connections>
+                                    <action selector="tapCategory:" destination="BYZ-38-t0r" eventType="valueChanged" id="Nut-46-fGd"/>
+                                </connections>
+                            </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="182" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Th0-ja-MRx">
-                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="148" width="375" height="519"/>
                                 <color key="backgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="0.79765624999999996" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="0.79765624999999996" colorSpace="calibratedRGB"/>
@@ -87,7 +97,7 @@
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="bva-Az-CWe">
-                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="68" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="oH9-zE-dgT"/>
                                 </constraints>
@@ -100,13 +110,16 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="bva-Az-CWe" firstAttribute="trailing" secondItem="Th0-ja-MRx" secondAttribute="trailing" id="5Rg-Jg-NgW"/>
-                            <constraint firstItem="bva-Az-CWe" firstAttribute="top" secondItem="rzu-2X-BOY" secondAttribute="top" id="5dD-Bp-7bu"/>
+                            <constraint firstItem="bva-Az-CWe" firstAttribute="top" secondItem="rzu-2X-BOY" secondAttribute="top" constant="4" id="5dD-Bp-7bu"/>
+                            <constraint firstItem="39W-Il-3oX" firstAttribute="leading" secondItem="rzu-2X-BOY" secondAttribute="leading" constant="8" id="ADC-ig-0nr"/>
+                            <constraint firstItem="39W-Il-3oX" firstAttribute="top" secondItem="bva-Az-CWe" secondAttribute="bottom" constant="4" id="Epc-ga-giN"/>
                             <constraint firstItem="Th0-ja-MRx" firstAttribute="leading" secondItem="rzu-2X-BOY" secondAttribute="leading" id="Kep-UB-WXk"/>
                             <constraint firstItem="bva-Az-CWe" firstAttribute="centerX" secondItem="z7Y-wY-dy1" secondAttribute="centerX" id="XeY-ar-A0C"/>
+                            <constraint firstItem="rzu-2X-BOY" firstAttribute="trailing" secondItem="39W-Il-3oX" secondAttribute="trailing" constant="8" id="e8i-Ej-jBZ"/>
                             <constraint firstItem="z7Y-wY-dy1" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fBg-Eh-A7Z"/>
                             <constraint firstItem="rzu-2X-BOY" firstAttribute="trailing" secondItem="Th0-ja-MRx" secondAttribute="trailing" id="fqp-mG-KzW"/>
                             <constraint firstItem="bva-Az-CWe" firstAttribute="leading" secondItem="Th0-ja-MRx" secondAttribute="leading" id="jZ5-I1-3hl"/>
-                            <constraint firstItem="Th0-ja-MRx" firstAttribute="top" secondItem="bva-Az-CWe" secondAttribute="bottom" id="kOx-jW-nyu"/>
+                            <constraint firstItem="Th0-ja-MRx" firstAttribute="top" secondItem="39W-Il-3oX" secondAttribute="bottom" constant="4" id="kOx-jW-nyu"/>
                             <constraint firstAttribute="bottom" secondItem="Th0-ja-MRx" secondAttribute="bottom" id="tp9-vc-bVT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rzu-2X-BOY"/>
@@ -114,6 +127,7 @@
                     <navigationItem key="navigationItem" title="Now Playing" id="Dqx-ef-vwj"/>
                     <connections>
                         <outlet property="activityIndicator" destination="z7Y-wY-dy1" id="OLT-wA-gTm"/>
+                        <outlet property="movieControl" destination="39W-Il-3oX" id="vRd-ch-LJi"/>
                         <outlet property="searchBar" destination="bva-Az-CWe" id="rOe-7i-qTY"/>
                         <outlet property="tableView" destination="Th0-ja-MRx" id="mOH-MY-W68"/>
                     </connections>

@@ -18,8 +18,13 @@ class MovieApiManager {
         session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
     }
     
-    func nowPlayingMovies(completion: @escaping ([Movie]?, Error?) -> ()) {
-        let url = URL(string: MovieApiManager.baseUrl + "now_playing?api_key=\(MovieApiManager.apiKey)")!
+    func getMovies(type: String, completion: @escaping ([Movie]?, Error?) -> ()) {
+        
+        var url = URL(string: MovieApiManager.baseUrl + "now_playing?api_key=\(MovieApiManager.apiKey)")!
+        
+        if type == "Popular" {
+            url = URL(string: MovieApiManager.baseUrl + "popular?api_key=\(MovieApiManager.apiKey)")!
+        }
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let task = session.dataTask(with: request) { (data, response, error) in
             // This will run when the network request returns

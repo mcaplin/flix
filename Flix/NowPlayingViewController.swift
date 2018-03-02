@@ -12,17 +12,20 @@ import AlamofireImage
 
 class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate {
     
+    
+    
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var movieControl: UISegmentedControl!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     var refreshControl: UIRefreshControl!
-    
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    
 
     var movies: [Movie] = []
     var filteredMovies: [Movie]! = []
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,10 +53,27 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         
         self.activityIndicator.startAnimating()
         
-        MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
+        let defaults = UserDefaults.standard
+        let nowPlaying = defaults.integer(forKey: "Now Playing")
+        var type = "Popular"
+        
+        if  movieControl.selectedSegmentIndex == nowPlaying {
+            self.title = "Now Playing"
+            self.tabBarItem.title = "Now Playing"
+            type = "Now Playing"
+        }
+        else {
+            self.title = "Popular"
+            self.tabBarItem.title = "Popular"
+        }
+        MovieApiManager().getMovies(type: type) { ( movies: [Movie]?, error: Error?) in
             if let movies = movies {
+                
+                
                 self.movies = movies
                 self.filteredMovies = self.movies
+                //self.tableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                
                 self.tableView.reloadData()
                 
                 self.refreshControl.endRefreshing()
@@ -75,6 +95,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
                 self.present(alertController, animated: true)
                 print(error.localizedDescription)
             }
+        
         }
     }
 
@@ -134,6 +155,16 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
             self.tableView.deselectRow(at: index, animated: true)
         }
     }
+    
+    @IBAction func tapCategory(_ sender: Any) {
+        
+        fetchMovies()
+        searchBarCancelButtonClicked(searchBar)
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
+
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
